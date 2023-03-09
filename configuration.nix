@@ -74,22 +74,37 @@ in
   };
 
 
-    
-    services.xserver = {
-      enable = true;
-      libinput.enable = true;
-      windowManager.fluxbox.enable = true;
-    #   windowManager.xmonad.enableContribAndExtras = true;
-    #   windowManager.xmonad.extraPackages = haskellPackages: [
-    #   haskellPackages.dbus
-    #   haskellPackages.List
-    #   haskellPackages.monad-logger
-    # ];
-      displayManager.lightdm.enable = true;
-      displayManager.lightdm.autoLogin = { enable = true; user = "xameer"; };
-      desktopManager.default = "none+fluxbox";
+  services.xserver.enable = true;                        # Enable the X11 windowing system.
+  services.xserver.layout = "us";                        # Set your preferred keyboard layout.
+  services.xserver.desktopManager.default = "none";      # Unset the default desktop manager.
+  services.xserver.windowManager = {                     # Open configuration for the window manager.
+    xmonad.enable = true;                                # Enable xmonad.
+    xmonad.enableContribAndExtras = true;                # Enable xmonad contrib and extras.
+    xmonad.extraPackages = hpkgs: [                      # Open configuration for additional Haskell packages.
+      hpkgs.xmonad-contrib                               # Install xmonad-contrib.
+      hpkgs.xmonad-extras                                # Install xmonad-extras.
+      hpkgs.xmonad                                       # Install xmonad itself.
+    ];
+    default = "xmonad";                                  # Set xmonad as the default window manager.
+  };
+  services.xserver.desktopManager.xterm.enable = false;  # Disable NixOS default desktop manager.
+
+  services.xserver.libinput.enable = true;               # Enable touchpad support.
+
+  services.udisks2.enable = true;                        # Enable udisks2.
+  services.devmon.enable = true;                         # Enable external device automounting.
+
+  services.xserver.displayManager.lightdm.enable = true;    # Enable the default NixOS display manager.
+  services.xserver.desktopManager.xfce.enable = true; # Enable KDE, the default NixOS desktop environment
+  #services.xserver.desktopManager.default = "none+fluxbox";
+  #services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.lightdm.autoLogin = { enable = true; user = "xameer"; };
+  fonts.fonts = with pkgs; [
+    open-sans             # Used in in my xmobar configuration
+  ];
+      
      
-    };
+    
   # Configure keymap in X11
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = {
@@ -151,6 +166,20 @@ in
   emacs
   git
   git-crypt
+    dmenu                    # A menu for use with xmonad
+    feh                      # A light-weight image viewer to set backgrounds
+    haskellPackages.libmpd   # Shows MPD status in xmobar
+    haskellPackages.xmobar   # A Minimalistic Text Based Status Bar
+    libnotify                # Notification client for my Xmonad setup
+    lxqt.lxqt-notificationd  # The notify daemon itself
+    mpc_cli                  # CLI for MPD, called from xmonad
+    scrot                    # CLI screen capture utility
+    trayer                   # A system tray for use with xmonad
+    xbrightness              # X11 brigthness and gamma software control
+    xcompmgr                 # X composting manager
+    xorg.xrandr              # CLI to X11 RandR extension
+    xscreensaver             # My preferred screensaver
+    xsettingsd               # A lightweight desktop settings server
   #st
   #alacritty
   konsole
