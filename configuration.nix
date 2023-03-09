@@ -152,8 +152,10 @@ in
   git
   git-crypt
   #st
-  alacritty
-  #nixosRecentCommit.etcher
+  #alacritty
+  konsole
+  foot
+  nixosRecentCommit.etcher
   pinentry-curses 
   gnome.gnome-disk-utility
 
