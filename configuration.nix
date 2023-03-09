@@ -73,32 +73,23 @@ in
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
-  # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;   
-    desktopManager = {
-      xterm.enable = false;
-      xfce = {
-        enable = true;
-        noDesktop = true;
-        enableXfwm = false;
-      };
-    };
-    windowManager = {
-      xmonad = {
-        enable = true;
-        enableContribAndExtras = true;
-        extraPackages = haskellPackages : [
-          haskellPackages.xmonad-contrib
-          haskellPackages.xmonad-extras
-          haskellPackages.xmonad
-        ];
-      };
-    };
-    displayManager.defaultSession = "xfce+xmonad";
-  };
-  
 
+    
+    services.xserver = {
+      enable = true;
+      libinput.enable = true;
+      windowManager.fluxbox.enable = true;
+    #   windowManager.xmonad.enableContribAndExtras = true;
+    #   windowManager.xmonad.extraPackages = haskellPackages: [
+    #   haskellPackages.dbus
+    #   haskellPackages.List
+    #   haskellPackages.monad-logger
+    # ];
+      displayManager.lightdm.enable = true;
+      displayManager.lightdm.autoLogin = { enable = true; user = "xameer"; };
+      desktopManager.default = "none+fluxbox";
+     
+    };
   # Configure keymap in X11
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = {
@@ -133,14 +124,15 @@ in
   users.users.root.initialPassword = "password";
   users.users.xameer = {
     isNormalUser = true;
+    initialPassword = "password";
     extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       firefox
     #  thunderbird
     ];
   };
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "xameer";
+  
+  
     environment.etc."machine-id".source
     = "/nix/persist/etc/machine-id";
   # environment.etc."ssh/ssh_host_rsa_key".source
@@ -159,7 +151,9 @@ in
   emacs
   git
   git-crypt
-  nixosRecentCommit.etcher
+  #st
+  alacritty
+  #nixosRecentCommit.etcher
   pinentry-curses 
   gnome.gnome-disk-utility
 

@@ -16,13 +16,7 @@
   fileSystems."/" =
     { device = "none";
       fsType = "tmpfs";
-      options = [ "defaults" "size=2G" "mode=755" ];
     };
-
-  # fileSystems."/" =
-  #   { device = "none";
-  #     fsType = "tmpfs";
-  #   };
 
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/5201-9E07";
